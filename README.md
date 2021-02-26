@@ -1,0 +1,1 @@
+inss_nicaragua
