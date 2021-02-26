@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# Estadísticas del Instituto de Seguridad Social de Nicaragau
+# Estadísticas del Instituto de Seguridad Social de Nicaragua
 
 Este repositorio contiene datos extraídos de los reportes de los
 anuarios estadísticos del Instituto de Seguridad Social de Nicaragua.
