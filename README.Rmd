@@ -1,0 +1,48 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# Estadísticas del Instituto de Seguridad Social de Nicaragau
+
+```{r, include = FALSE}
+library(tidyverse)
+
+# Read data ---------------------------------------------------------------
+project <- file.path("D:/Documents/GitHub/inss_nicaragua")
+data    <- file.path(project, "data")
+
+inss <- read_rds(file.path(data, "inss_gender.rds"))
+```
+
+Este repositorio contiene datos extraídos de los reportes de los anuarios estadísticos del Instituto de Seguridad Social de Nicaragua. Los datos se encuentran en la subcarpeta `data` en formato `csv` y `rds`.
+
+Las variables en esta base son: 
+
+* `year`: año
+* `gender`: género 
+* `edad`: grupo de edad
+* `mes`: mes
+* `asegurados`: cantidad de asegurados activos
+
+```{r}
+inss
+```
+
+## Caveats
+
+Actualmente este repositorio no contiene información de los anuarios del año 2013 y 2007.
+
+## Comentarios y sugerencias
+
+Para realizar comentarios o sugerencias sobre la base de datos puedes abrir un issue en este repositorio: [https://github.com/RRMaximiliano/inss_nicaragua/issues](https://github.com/RRMaximiliano/inss_nicaragua/issues)
