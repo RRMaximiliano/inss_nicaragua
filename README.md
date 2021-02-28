@@ -38,8 +38,8 @@ inss
 
 ## Caveats
 
-Actualmente este repositorio no contiene información de los anuarios del
-año 2013 y 2007.
+Actualmente este repositorio no contiene información del anuario del año
+2013.
 
 ## Comentarios y sugerencias
 
