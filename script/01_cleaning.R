@@ -7,7 +7,8 @@ library(readxl)
 # Read data ---------------------------------------------------------------
 project <- file.path("D:/Documents/GitHub/inss_nicaragua")
 data    <- file.path(project, "data")
-  
+figs    <- file.path(project, "figs")
+
 inss_raw <- read_excel(file.path(data, "raw", "raw_inss.xlsx")) %>% 
   janitor::clean_names()
 

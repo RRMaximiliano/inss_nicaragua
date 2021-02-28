@@ -39,6 +39,10 @@ Las variables en esta base son:
 inss
 ```
 
+```{r, echo = FALSE}
+knitr::include_graphics("figs/asegurados.png")
+```
+
 ## Caveats
 
 Actualmente este repositorio no contiene información de los anuarios del año 2013 y 2007.

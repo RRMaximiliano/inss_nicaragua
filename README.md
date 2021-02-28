@@ -34,6 +34,8 @@ inss
 #> # ... with 3,734 more rows
 ```
 
+<img src="figs/asegurados.png" width="100%" />
+
 ## Caveats
 
 Actualmente este repositorio no contiene información de los anuarios del
