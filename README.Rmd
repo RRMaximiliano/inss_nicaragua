@@ -23,9 +23,12 @@ project <- file.path("D:/Documents/GitHub/inss_nicaragua")
 data    <- file.path(project, "data")
 
 inss <- read_rds(file.path(data, "inss_gender.rds"))
+inss_reg <- read_rds(file.path(data, "inss_regimen.rds"))
 ```
 
 Este repositorio contiene datos extraídos de los reportes de los anuarios estadísticos del Instituto de Seguridad Social de Nicaragua. Los datos se encuentran en la subcarpeta `data` en formato `csv` y `rds`.
+
+## Por género
 
 Las variables en esta base son: 
 
@@ -39,13 +42,30 @@ Las variables en esta base son:
 inss
 ```
 
+## Por régimen
+
+Las variables en esta base son: 
+
+* `year`: año
+* `month`: mes 
+* `regimen`: tipo de régimen (i.e., facultativo y obligatorio)
+* `asegurados`: cantidad de asegurados activos
+
+```{r}
+inss_reg
+```
+
 ```{r, echo = FALSE}
 knitr::include_graphics("figs/asegurados.png")
 ```
 
+```{r, echo = FALSE}
+knitr::include_graphics("figs/asegurados_regimen.png")
+```
+
 ## Caveats
 
-Actualmente este repositorio no contiene información del anuario del año 2013. 
+Actualmente este repositorio no contiene información del anuario del año 2007. 
 
 ## Comentarios y sugerencias
 

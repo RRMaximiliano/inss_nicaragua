@@ -8,6 +8,8 @@ anuarios estadísticos del Instituto de Seguridad Social de Nicaragua.
 Los datos se encuentran en la subcarpeta `data` en formato `csv` y
 `rds`.
 
+## Por género
+
 Las variables en esta base son:
 
 -   `year`: año
@@ -34,12 +36,41 @@ inss
 #> # ... with 3,734 more rows
 ```
 
+## Por régimen
+
+Las variables en esta base son:
+
+-   `year`: año
+-   `month`: mes
+-   `regimen`: tipo de régimen (i.e., facultativo y obligatorio)
+-   `asegurados`: cantidad de asegurados activos
+
+``` r
+inss_reg
+#> # A tibble: 624 x 4
+#>     year month   regimen              asegurados
+#>    <dbl> <chr>   <chr>                     <dbl>
+#>  1  2006 Enero   Obligatorio Integral     340891
+#>  2  2006 Enero   Obligatorio IVM           56440
+#>  3  2006 Enero   Facultativo Integral       1678
+#>  4  2006 Enero   Facultativo IVM            1400
+#>  5  2006 Febrero Obligatorio Integral     344008
+#>  6  2006 Febrero Obligatorio IVM           56327
+#>  7  2006 Febrero Facultativo Integral       1694
+#>  8  2006 Febrero Facultativo IVM            1436
+#>  9  2006 Marzo   Obligatorio Integral     351033
+#> 10  2006 Marzo   Obligatorio IVM           53626
+#> # ... with 614 more rows
+```
+
 <img src="figs/asegurados.png" width="100%" />
+
+<img src="figs/asegurados_regimen.png" width="100%" />
 
 ## Caveats
 
 Actualmente este repositorio no contiene información del anuario del año
-2013.
+2007.
 
 ## Comentarios y sugerencias
 
