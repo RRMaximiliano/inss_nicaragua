@@ -5,7 +5,7 @@ library(tidyverse)
 library(readxl)
 
 # Read data ---------------------------------------------------------------
-project <- file.path("D:/Documents/GitHub/inss_nicaragua")
+project <- "."
 data    <- file.path(project, "data")
 figs    <- file.path(project, "figs")
 
@@ -17,7 +17,14 @@ inss <- inss_raw %>%
     4:15, 
     names_to = "mes",
     values_to = "asegurados"
-  )
+  ) %>% 
+  filter(!is.na(asegurados))
+
+anuarios_gender <- read_csv(file.path(data, "raw", "anuarios_gender.csv"))
+
+inss <- inss %>% 
+  bind_rows(anti_join(anuarios_gender, inss, by = c("year", "gender", "edad", "mes"))) %>% 
+  arrange(year, gender, edad, match(mes, unique(inss$mes)))
   
 inss_reg_raw <- read_excel(file.path(data, "raw", "raw_inss_regimen.xlsx")) %>% 
   janitor::clean_names()
@@ -27,27 +34,49 @@ inss_reg <- inss_reg_raw %>%
     3:6,
     names_to = "regimen",
     values_to = "asegurados"
-  )
+  ) %>% 
+  filter(!is.na(asegurados))
+
+anuarios_regimen <- read_csv(file.path(data, "raw", "anuarios_regimen.csv"))
 
 inss_reg <- inss_reg %>% 
-  mutate(
-    regimen = case_when(regimen == "fac_integral" ~  "Facultativo Integral",
-                        regimen == "fac_ivm"      ~  "Facultativo IVM",
-                        regimen == "obl_integral" ~  "Obligatorio Integral",
-                        regimen == "obl_ivm"      ~  "Obligatorio IVM")
-  )
+  bind_rows(anti_join(anuarios_regimen, inss_reg, by = c("year", "month", "regimen"))) %>% 
+  arrange(year, match(month, unique(inss_reg$month)), match(regimen, unique(inss_reg$regimen)))
+
+regimen_labels <- c(obl_integral = "Obligatorio Integral",
+                    obl_ivm      = "Obligatorio IVM",
+                    fac_integral = "Facultativo Integral",
+                    fac_ivm      = "Facultativo IVM")
+
+inss_reg <- inss_reg %>% 
+  mutate(regimen = unname(regimen_labels[regimen]))
+
+inss_reg_dic <- read_csv(file.path(data, "raw", "anuarios_regimen_historico.csv")) %>% 
+  filter(year < min(inss_reg$year)) %>% 
+  mutate(regimen = unname(regimen_labels[regimen])) %>% 
+  bind_rows(inss_reg %>% filter(month == "Diciembre") %>% select(year, regimen, asegurados)) %>% 
+  arrange(year, match(regimen, regimen_labels))
+
+inss_salarios <- read_csv(file.path(data, "raw", "anuarios_salarios.csv")) %>% 
+  mutate(regimen = unname(regimen_labels[regimen]))
+
+inss_empleadores <- read_csv(file.path(data, "raw", "anuarios_empleadores.csv")) %>% 
+  mutate(regimen = unname(regimen_labels[regimen]))
+
+inss_departamento <- read_csv(file.path(data, "raw", "anuarios_departamento.csv")) %>% 
+  select(year, departamento, departamento_anuario, gender, asegurados) %>% 
+  arrange(year, departamento, departamento_anuario, gender)
 
 # Save data ---------------------------------------------------------------
 
-inss %>% 
-  write_csv(file.path(data, "inss_gender.csv"))
-  
-inss %>% 
-  write_rds(file.path(data, "inss_gender.rds"))
+save_data <- function(df, name) {
+  write_csv(df, file.path(data, paste0(name, ".csv")))
+  write_rds(df, file.path(data, paste0(name, ".rds")))
+}
 
-
-inss_reg %>% 
-  write_csv(file.path(data, "inss_regimen.csv"))
-
-inss_reg %>% 
-  write_rds(file.path(data, "inss_regimen.rds"))
+save_data(inss,              "inss_gender")
+save_data(inss_reg,          "inss_regimen")
+save_data(inss_reg_dic,      "inss_regimen_diciembre")
+save_data(inss_salarios,     "inss_salarios")
+save_data(inss_empleadores,  "inss_empleadores")
+save_data(inss_departamento, "inss_departamento")
